@@ -13,7 +13,10 @@
 		<%= post.body %></br>
 	</p>
 	<img src="<%= post.image %>"><br>
-	<button>Upvote<button><button>Downvote</button>
+	<button>Upvote<button><button>Downvote</button></br>
+
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>$("button").on("click", function() {alert("clicked!")})</script></br>
 
 	<a href="/">Back to Forum</a><br>
 

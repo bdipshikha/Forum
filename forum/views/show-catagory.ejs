@@ -21,6 +21,9 @@
 		<hr/>
 	<%}%>
 	<button>Upvote<button><button>Downvote</button></br>
+
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>$("button").on("click", function() {alert("clicked!")})</script></br>
 	
 	<form method="POST" action="/forum/<%= catagory.id %>?_method=DELETE">
 		<button>Delete</button>

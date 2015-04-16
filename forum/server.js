@@ -1,3 +1,4 @@
+
 //app requirements
 //express
 var express = require('express')
@@ -38,15 +39,20 @@ app.get('/forums', function(req, res) { // all posts, blogs
 			res.render('index.ejs', {forum: forum});	
 		});
 });
-//to get single catagory
-// app.get('/forum/:id', function(req, res){
-// 	var id = req.params.id
-// 	db.get("SELECT * FROM catagories WHERE id = ?", id, function(err, thisCatagory){
-// 		var catagory_row = thisCatagory;
-// 		console.log(catagory_row);
-// 			res.render('show1.ejs', {forum: catagory_row })
-// 	});		
+
+// *************** added new code for search ******************
+
+// app.post('/index', function(req, res){
+// 	var search = req.query.search;
+// 	if (search === catagories.title) {
+// 		db.get("SELECT search FROM catagories;", function(catagories, posts) {	
+// 		});
+// 	}	else if (search === posts.title) {
+// 		db.get('SELECT search FROM posts;', function(catagories, posts) {	
+// 		});
+// 	}	res.render('index.ejs', {catagories: catagories, posts: posts})
 // });
+// *************************** new code end ************************
 
 // to get single catagory
 app.get('/forum/:id', function(req, res){
@@ -60,9 +66,7 @@ app.get('/forum/:id', function(req, res){
 			console.log("=================== start posts =======");
 			console.log(post_row);
 			console.log("=================== end posts =========");
-	 		// res.render('show2.ejs', {post: post_row })
-			//var post_row = thisCatagory;
-			//console.log(post);
+	
 			res.render('show-catagory.ejs', {'catagory': catagory_row, 'posts': posts })
 		});		
 	});
@@ -104,7 +108,7 @@ app.put('/forum/:id', function(req, res){
     		throw err
         } // console.log(res)
     })
-    //redirect to this blog page to see changes
+    //redirect to this indivudual catagory page to see changes
     res.redirect('/forum/' + req.params.id)// needs to be blog not blogs since only one post
 });
 
@@ -114,7 +118,7 @@ app.delete("/forum/:id", function(req,res){
 			throw err
 		}
 	})
-    //go to /pets to see change
+    //go to forum to see change
     res.redirect('/forums')
 });
 
@@ -177,7 +181,6 @@ app.put('/post/:id', function(req, res){
 
 app.listen('3000')
 console.log("Listing to port 3000")
-
 
 
 
