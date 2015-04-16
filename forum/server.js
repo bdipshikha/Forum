@@ -164,9 +164,9 @@ app.get('/post/:id/edit', function(req, res){
 
 app.put('/post/:id', function(req, res){
 	console.log("put");
-	var catid = req.params.catid;
+	//var catid = req.params.catid;
     //make changes to appropriate post
-    db.run("UPDATE posts SET catagory_id = ?, title = ?, body = ?, image = ?, votes = ? WHERE id = ?", req.body.catid, req.body.title, req.body.body, req.body.image, req.body.votes, req.params.id, function(err) {
+    db.run("UPDATE posts SET  title = ?, body = ?, image = ?, votes = ? WHERE id = ?",  req.body.title, req.body.content, req.body.image, req.body.votes, req.params.id, function(err) {
     	if (err) {
     		throw err
         } // console.log(res)
