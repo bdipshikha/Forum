@@ -151,15 +151,28 @@ app.post('/catagory/:catid/post/savenewpost', function(req, res){
     //go to forum so we can see our new catagory
 
 });
-app.get('/catagory/:id/post/edit', function(req, res){
+app.get('/post/:id/edit', function(req, res){
 	var id = req.params.id
-	db.get("SELECT * FROM catagories WHERE id = ?", id, function(err, thisCatagory) {
+	db.get("SELECT * FROM posts WHERE id = ?", id, function(err, thisPost) {
 		if (err) {
 			throw err
 		} else {
-			res.render("edit-catagory.ejs", {thisCatagory: thisCatagory})
+			res.render("edit-post.ejs", {thisPost: thisPost})
 		}
 	});
+});
+
+app.put('/post/:id', function(req, res){
+	console.log("put");
+	var catid = req.params.catid;
+    //make changes to appropriate post
+    db.run("UPDATE posts SET catagory_id = ?, title = ?, body = ?, image = ?, votes = ? WHERE id = ?", req.body.catid, req.body.title, req.body.body, req.body.image, req.body.votes, req.params.id, function(err) {
+    	if (err) {
+    		throw err
+        } // console.log(res)
+    })
+    //redirect to this blog page to see changes
+    res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
 });
 
 app.listen('3000')
