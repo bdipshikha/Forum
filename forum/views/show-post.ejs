@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+</head>
+
+<body>
+	<a href="/post/<%= post.id %>/edit">Edit Post</a><br>
+	<h1><%= post.title %></h1> 
+	
+
+	<p> 
+		<%= post.id %></br>
+		<%= post.author %></br>
+		<%= post.body %></br>
+	</p>
+	<img src="<%= post.image %>"><br>
+	<button>Upvote<button><button>Downvote</button>
+
+	<a href="/">Back to Forum</a><br>
+
+	<form method="POST" action="/catagory/post/<%= post.id %>?_method=DELETE">
+		<button>Delete</button>
+	</form>
+</body>
+</html>

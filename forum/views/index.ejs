@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<h1>Welcome to the Forum</h1>
+	<ul>
+		<%forum.forEach(function(obj) { %> 
+			<li style="padding:4px;">
+				<%= obj.id %> - <a href="/forum/<%= obj.id %>"><%= obj.title %> </a>	
+			</li>
+		<% }); %>
+	</ul>	
+	<a href="/catagories/new"> Create a new Catagory</a>
+</body>
+</html>

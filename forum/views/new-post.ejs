@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+	<h1>Create New Post</h1>
+	<form action ="/catagory/<%= catagory_id %>/post/savenewpost" method="POST">
+		<input type="text" name="title" placeholder="title"><br>
+		<input type="text" name="author" placeholder="author"><br>
+		<textarea rows="15" cols="130" name="body" placeholder="body"></textarea><br> 
+		<!-- <textarea rows="15" cols="130" name="comment" placeholder="comment" </textarea><br>  -->
+		<input type="text" name="image" placeholder="url" >
+		<button>Upvote<button><button>Downvote</button></br>
+		<br/>
+		<input type="submit" value="Save New Post" style="border:2px green solid;"/>
+	</form><br>
+	<a href="/">Back to Forum</a>
+</body>
+</html>
