@@ -9,10 +9,15 @@
 
 	<p> 
 		<%= post.id %></br>
-		<%= post.author %></br>
 		<%= post.body %></br>
-		<%= post.Upvote %>
-		<%= post.Downvote %>
+		<%= post.Upvote %></br>
+		<%= post.Downvote %></br>
+		
+		<ul>
+		<% for(var i = 0; i<comments.length; i++) { %>
+		<li><%= comments[i].comment %></li>
+		<% }%>
+		</ul>
 	</p>
 	<img src="<%= post.image %>"><br>
 	<form method="POST" action="/post/<%= post.id %>/upvote">
@@ -21,11 +26,18 @@
 	<form method="POST" action="/post/<%= post.id %>/downvote">
 		<%= post.Downvotes %><input type="submit" value="Downvotes">
 	</form>
+	
+	
+	<form method="POST" action="/post/<%= post.id %>/comment">
+	<textarea name="comment" placeholder="comment"></textarea>
+	<input type="submit">
+	</form>
 
-	<a href="/">Back to Forum</a><br>
+
 
 	<form method="POST" action="/post/<%= post.id %>?_method=DELETE">
 		<button>Delete</button>
 	</form>
+	<a href="/">Back to Forum</a><br>
 </body>
 </html>
