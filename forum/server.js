@@ -81,7 +81,7 @@ app.get('/catagories/new', function(req, res){
 app.post('/catagories', function(req, res){
 	console.log(req.body)
     //get info from req.body, make new post
-    db.run("INSERT INTO catagories (title, body, image, votes) VALUES (?, ?, ?, ?)",  req.body.title, req.body.body, req.body.image, req.body.votes, function(err) {
+    db.run("INSERT INTO catagories (title, body, image, Upvotes, Downvotes) VALUES (?, ?, ?, 0, 0)",  req.body.title, req.body.body, req.body.image, req.body.Upvotes, req.body.Downvotes, function(err) {
     	if (err) {
     		throw err;
     	}
@@ -103,12 +103,38 @@ app.get('/forum/:id/edit', function(req, res){
 app.put('/forum/:id', function(req, res){
 	console.log("put");
     //make changes to appropriate post
-    db.run("UPDATE catagories SET title = ?, body = ?, image = ?, votes = ? WHERE id = ?", req.body.title, req.body.content, req.body.image, req.body.votes, req.params.id, function(err) {
+    db.run("UPDATE catagories SET title = ?, body = ?, image = ?, Upvotes = ?, Downvotes = ? WHERE id = ?", req.body.title, req.body.content, req.body.image, req.body.Upvotes, req.body.Downvotes, req.params.id, function(err) {
     	if (err) {
     		throw err
         } // console.log(res)
     })
     //redirect to this indivudual catagory page to see changes
+    res.redirect('/forum/' + req.params.id)// needs to be blog not blogs since only one post
+});
+
+app.post('/forum/:id/upvote', function(req, res){
+	//console.log("put");
+    db.run("UPDATE catagories SET Upvotes = 1 + Upvotes WHERE id = ?",  req.params.id, function(err) {
+    	if (err) {
+    		throw err;
+        }  
+        console.log("---  inside upvote ---");
+        console.log(req.body);
+    })
+  
+    res.redirect('/forum/' + req.params.id)
+});
+
+app.post('/forum/:id/downvote', function(req, res){
+	//console.log("put");
+    db.run("UPDATE catagories SET Downvotes = Downvotes -1 WHERE id = ?",  req.params.id, function(err) {
+    	if (err) {
+    		throw err;
+        }  
+        //console.log("---  inside upvote ---");
+        console.log(req.body);
+    })
+    //redirect to this blog page to see changes
     res.redirect('/forum/' + req.params.id)// needs to be blog not blogs since only one post
 });
 
@@ -143,7 +169,7 @@ app.post('/catagory/:catid/post/savenewpost', function(req, res){
 	var catid = req.params.catid;
 	console.log(req.body)
     //get info from req.body, make new post
-    db.run("INSERT INTO posts (catagory_id, title, body, image, votes) VALUES (?, ?, ?, ?, ?)",  catid, req.body.title, req.body.body, req.body.image, req.body.votes, function(err) {
+    db.run("INSERT INTO posts (catagory_id, title, body, image, Upvotes, Downvotes) VALUES (?, ?, ?, ?, ?, ?)",  catid, req.body.title, req.body.body, req.body.image, req.body.Upvotes, req.body.Downvotes, function(err) {
     	if (err) {
     		console.log("error in inserting");
     		throw err;
@@ -166,11 +192,11 @@ app.get('/post/:id/edit', function(req, res){
 	});
 });
 
-app.put('/post/:id', function(req, res){
-	console.log("put");
+app.put('/post/:id/update', function(req, res){
+	//console.log("put");
 	//var catid = req.params.catid;
     //make changes to appropriate post
-    db.run("UPDATE posts SET  title = ?, body = ?, image = ?, votes = ? WHERE id = ?",  req.body.title, req.body.content, req.body.image, req.body.votes, req.params.id, function(err) {
+    db.run("UPDATE posts SET  title = ?, body = ?, image = ?, Upvotes = ?, Downvotes = ? WHERE id = ?",  req.body.title, req.body.content, req.body.image, req.body.Upvotes, req.body.Downvotes, req.params.id, function(err) {
     	if (err) {
     		throw err
         } // console.log(res)
@@ -179,6 +205,42 @@ app.put('/post/:id', function(req, res){
     res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
 });
 
+app.post('/post/:id/upvote', function(req, res){
+	//console.log("put");
+    db.run("UPDATE posts SET Upvotes = 1 + Upvotes WHERE id = ?",  req.params.id, function(err) {
+    	if (err) {
+    		throw err;
+        }  
+        console.log("---  inside upvote ---");
+        console.log(req.body);
+    })
+    //redirect to this blog page to see changes
+    res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
+});
+
+app.post('/post/:id/downvote', function(req, res){
+	//console.log("put");
+    db.run("UPDATE posts SET Downvotes = Downvotes -1 WHERE id = ?",  req.params.id, function(err) {
+    	if (err) {
+    		throw err;
+        }  
+        //console.log("---  inside upvote ---");
+        console.log(req.body);
+    })
+    //redirect to this blog page to see changes
+    res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
+});
+
+
+app.delete("/post/:id", function(req, res){
+	db.run("DELETE FROM posts WHERE id = ?", req.params.id, function(err) {
+		if (err) {
+			throw err
+		}
+	})
+    //go to forum to see change
+    res.redirect('/forums')
+});
 app.listen('3000')
 console.log("Listing to port 3000")
 

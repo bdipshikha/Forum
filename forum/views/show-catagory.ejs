@@ -20,10 +20,14 @@
 		<%= posts[i].id %> - <a href="/post/<%= posts[i].id %>"><%=posts[i].title%> </a> 
 		<hr/>
 	<%}%>
-	<button>Upvote<button><button>Downvote</button></br>
+	<form method="POST" action="/forum/<%= catagory.id %>/upvote">
+		<%= catagory.Upvotes %> <input type="submit" value="Upvotes">
+	</form>
+	<form method="POST" action="/forum/<%= catagory.id %>/downvote">
+		<%= catagory.Downvotes %><input type="submit" value="Downvotes">
+	</form>
 
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script>$("button").on("click", function() {alert("clicked!")})</script></br>
+	
 	
 	<form method="POST" action="/forum/<%= catagory.id %>?_method=DELETE">
 		<button>Delete</button>

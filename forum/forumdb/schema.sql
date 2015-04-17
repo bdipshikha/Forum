@@ -4,7 +4,8 @@ id INTEGER PRIMARY KEY,
 title TEXT,
 body TEXT,
 image TEXT,
-votes INTEGER
+Upvotes INTEGER,
+Downvotes INTEGER
 );
 
 
@@ -17,7 +18,8 @@ author_id INTEGER,
 title TEXT,
 body TEXT,
 image TEXT,
-votes INTEGER
+Upvotes INTEGER,
+Downvotes INTEGER
 );
 
 

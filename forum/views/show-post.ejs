@@ -11,16 +11,20 @@
 		<%= post.id %></br>
 		<%= post.author %></br>
 		<%= post.body %></br>
+		<%= post.Upvote %>
+		<%= post.Downvote %>
 	</p>
 	<img src="<%= post.image %>"><br>
-	<button>Upvote<button><button>Downvote</button></br>
-
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script>$("button").on("click", function() {alert("clicked!")})</script></br>
+	<form method="POST" action="/post/<%= post.id %>/upvote">
+		<%= post.Upvotes %> <input type="submit" value="Upvotes">
+	</form>
+	<form method="POST" action="/post/<%= post.id %>/downvote">
+		<%= post.Downvotes %><input type="submit" value="Downvotes">
+	</form>
 
 	<a href="/">Back to Forum</a><br>
 
-	<form method="POST" action="/catagory/post/<%= post.id %>?_method=DELETE">
+	<form method="POST" action="/post/<%= post.id %>?_method=DELETE">
 		<button>Delete</button>
 	</form>
 </body>
