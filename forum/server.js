@@ -60,7 +60,14 @@ app.get('/forum/:id', function(req, res){
         var catagory_row = thisCatagory;
         console.log(catagory_row);
         var catagory_id = req.params.id
-        db.all("SELECT posts.id, posts.title FROM posts INNER JOIN catagories ON catagories.id = posts.catagory_id WHERE catagory_id = ?", thisCatagory.id,  function(err, posts){
+        //if(req.query.offset === undefined) { req.query.offset = 0; }
+        var SQL = "SELECT posts.id, posts.title, strftime('%s',date) - strftime('%s','now') " +
+                  "FROM posts INNER JOIN catagories ON catagories.id = posts.catagory_id  " +
+                  "WHERE strftime('%s',date) - strftime('%s','2015-04-01') > 0 and catagory_id = ?";
+
+        console.log(SQL);
+        db.all(SQL, thisCatagory.id, function(err, posts){
+            console.log(err);
             var post_row = posts;
             console.log("=================== start posts =======");
             console.log(post_row);
@@ -133,17 +140,27 @@ app.post('/forum/:id/downvote', function(req, res){
         //console.log("---  inside upvote ---");
         console.log(req.body);
     })
-    //redirect to this blog page to see changes
-    res.redirect('/forum/' + req.params.id)// needs to be blog not blogs since only one post
+   
+    res.redirect('/forum/' + req.params.id)
 });
 
-app.delete("/forum/:id", function(req,res){
-    db.run("DELETE FROM catagories WHERE id = ?", req.params.id, function(err) {
-        if (err) {
-            throw err
-        }
-    })
-    //go to forum to see change
+app.delete("/forum/:id", function(req, res) {
+db.get("SELECT * FROM posts WHERE posts.catagory_id = ?", req.params.id, function(err, posts) {
+    if(err) {
+        throw err;
+    }
+    if (posts === undefined) {    
+        console.log("no post for this catagory so deleting will work")
+        db.run("DELETE FROM catagories WHERE id = ?", req.params.id, function(err) {
+            if (err) {
+                throw err;
+            } 
+        }); 
+        console.log("its working!");
+    } else {
+        console.log("Can't delete a catagory with posts!");
+    }
+});
     res.redirect('/forums')
 });
 
@@ -170,7 +187,7 @@ app.post('/catagory/:catid/post/savenewpost', function(req, res){
     var catid = req.params.catid;
     console.log(req.body)
     //get info from req.body, make new post
-    db.run("INSERT INTO posts (catagory_id, title, body, image, Upvotes, Downvotes) VALUES (?, ?, ?, ?, ?, ?)",  catid, req.body.title, req.body.body, req.body.image, req.body.Upvotes, req.body.Downvotes, function(err) {
+    db.run("INSERT INTO posts (catagory_id, title, body, image, Upvotes, Downvotes, date) VALUES (?, ?, ?, ?, 0, 0, ?)",  catid, req.body.title, req.body.body, req.body.image, req.body.Upvotes, req.body.Downvotes, req.body.date, function(err) {
         if (err) {
             console.log("error in inserting");
             throw err;
@@ -197,7 +214,7 @@ app.put('/post/:id/update', function(req, res){
     //console.log("put");
     //var catid = req.params.catid;
     //make changes to appropriate post
-    db.run("UPDATE posts SET  title = ?, body = ?, image = ?, Upvotes = ?, Downvotes = ? WHERE id = ?",  req.body.title, req.body.content, req.body.image, req.body.Upvotes, req.body.Downvotes, req.params.id, function(err) {
+    db.run("UPDATE posts SET  title = ?, body = ?, image = ?, Upvotes = ?, Downvotes = ?, date = ? WHERE id = ?",  req.body.title, req.body.content, req.body.image, req.body.Upvotes, req.body.Downvotes, req.body.date, req.params.id, function(err) {
         if (err) {
             throw err
         } // console.log(res)
@@ -213,7 +230,7 @@ app.post('/post/:id/upvote', function(req, res){
             throw err;
         }  
         console.log("---  inside upvote ---");
-        console.log(req.body);
+        console.log(req.params.id);
     })
     //redirect to this blog page to see changes
     res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
@@ -232,7 +249,7 @@ app.post('/post/:id/downvote', function(req, res){
 });
 app.post ('/post/:id/comment', function(req, res) {
 
-        db.run("INSERT INTO comments (post_id, comment) VALUES (?, ?)", req.params.id, req.body.comment,   function(err) {
+        db.run("INSERT INTO comments (post_id, comment) VALUES (?, ?)", req.params.id, req.body.comment, function(err) {
         if (err) {
             console.log("error in interesting");
             throw err;

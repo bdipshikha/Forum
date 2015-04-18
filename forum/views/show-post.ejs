@@ -8,7 +8,8 @@
 	
 
 	<p> 
-		<%= post.id %></br>
+		Time: <%= post.time %></br>
+		Id: <%= post.id %></br>
 		<%= post.body %></br>
 		<%= post.Upvote %></br>
 		<%= post.Downvote %></br>
@@ -21,7 +22,7 @@
 	</p>
 	<img src="<%= post.image %>"><br>
 	<form method="POST" action="/post/<%= post.id %>/upvote">
-		<%= post.Upvotes %> <input type="submit" value="Upvotes">
+		(<%= post.Upvotes %> )<input type="submit" value="Upvotes">
 	</form>
 	<form method="POST" action="/post/<%= post.id %>/downvote">
 		<%= post.Downvotes %><input type="submit" value="Downvotes">

@@ -18,7 +18,8 @@ title TEXT,
 body TEXT,
 image TEXT,
 Upvotes INTEGER,
-Downvotes INTEGER
+Downvotes INTEGER,
+date TEXT
 );
 
 
