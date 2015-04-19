@@ -1,44 +1,94 @@
 <!DOCTYPE html>
 <head>
+	<style>
+		h1 {
+			text-align: center;
+			color: #F00;
+			font-family: chalkduster;
+		}
+		body {
+			text-align: justify;
+			background-color: #E0F8FF;
+			margin: 20px;
+			padding: 0px 10px 5px;
+		}
+		a {
+			color: green;
+		}
+		
+		p {
+			text-align: justify;
+			color: blue;
+			font-family: times new roman;
+			font-size: 18px;
+		}
+		img {
+			width: 500px;
+			height: 300px;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+		}
+		ul {
+			padding: 10px 10px 10px 20px;
+			list-style-type: none;
+			margin: auto;
+
+		}
+		li {
+			padding: 0px 10px 10px 10px;
+		}
+		table {
+			width: 1500px;
+			padding: 10px;		
+		}
+	</style>
 </head>
 
 <body>
-	<a href="/post/<%= post.id %>/edit">Edit Post</a><br>
+	<table>
+		<td><a class="hyper" href="/">Back to Forum</a></td>
+		<td><a class="hyper" href="/post/<%= post.id %>/edit">Edit Post</a></td>
+	</table>
+
 	<h1><%= post.title %></h1> 
-	
 
 	<p> 
-		Time: <%= post.time %></br>
-		Id: <%= post.id %></br>
-		<%= post.body %></br>
-		<%= post.Upvote %></br>
-		<%= post.Downvote %></br>
-		
-		<ul>
-		<% for(var i = 0; i<comments.length; i++) { %>
-		<li><%= comments[i].comment %></li>
-		<% }%>
-		</ul>
+		<%- post.body %></br>
 	</p>
+
+
 	<img src="<%= post.image %>"><br>
 	<form method="POST" action="/post/<%= post.id %>/upvote">
-		(<%= post.Upvotes %> )<input type="submit" value="Upvotes">
+		<%= post.Upvotes %> <input type="submit" value="Like">
 	</form>
 	<form method="POST" action="/post/<%= post.id %>/downvote">
-		<%= post.Downvotes %><input type="submit" value="Downvotes">
-	</form>
-	
-	
-	<form method="POST" action="/post/<%= post.id %>/comment">
-	<textarea name="comment" placeholder="comment"></textarea>
-	<input type="submit">
-	</form>
+		<%= post.Downvotes %><input type="submit" value="Dislike">
+	</form></br>
 
 
 
 	<form method="POST" action="/post/<%= post.id %>?_method=DELETE">
-		<button>Delete</button>
+		<input type="submit" value="Delete" style="border:2px green solid;"/>
 	</form>
-	<a href="/">Back to Forum</a><br>
+
+	<hr></hr>
+
+	<p>Please leave your comments below:</p>
+
+	<form method="POST" action="/post/<%= post.id %>/comment">
+		<textarea name="comment" placeholder="comment"></textarea>
+		<input type="submit">
+	</form></br>
+
+	Comments :
+
+	<ul>
+
+		<% for(var i = 0; i<comments.length; i++) { %>
+		<li><%= comments[i].comment %></li>
+		<% }%>
+	</ul>
+
 </body>
 </html>

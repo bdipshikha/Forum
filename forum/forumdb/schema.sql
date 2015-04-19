@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS catagories;
-CREATE TABLE catagories (
+DROP TABLE IF EXISTS categories;
+CREATE TABLE categories (
 id INTEGER PRIMARY KEY,
 title TEXT,
 body TEXT,
@@ -13,7 +13,7 @@ Downvotes INTEGER
 DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
 id INTEGER PRIMARY KEY,
-catagory_id INTEGER,
+category_id INTEGER,
 title TEXT,
 body TEXT,
 image TEXT,

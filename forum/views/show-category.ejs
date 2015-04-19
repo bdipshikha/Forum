@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<head>
+	<style>
+		h1 {
+			text-align: center;
+			color: #F00;
+			font-family: chalkduster;
+		}
+
+		body {
+			text-align: justify;
+			background-color: #E0F8FF;
+			margin: 30px;
+			padding: 0px 10px 5px;
+		}
+		a {
+			color: red;
+		}
+		p {
+			text-align: justify;
+			color: blue;
+			font-family: times new roman;
+			font-size: 18px;
+		}
+		img {
+			width: 500px;
+			height: 300px;
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+
+		}
+		.list {
+			padding: 0px 0px 10px;
+			font-size: 20px;
+			color: tan;
+		}
+		.hyper {
+			color: green;
+		}
+		
+		ul {
+			padding: 10px 10px 10px 20px;
+			list-style-type: none;
+
+		}
+		li {
+			border-style: outset;
+			background-color: #195019;
+			font-size: 30px;
+			border-width: thick;
+			text-align: center;
+			width: 200px;
+			margin:auto;
+		}
+		table {
+			width: 1500px;
+		}
+	</style>
+
+</head>
+<body>
+	<table>
+	<td><a class="hyper" href="/">Back to Forum</a></td>
+	<td><a class="hyper" href="/forum/<%= category.id %>/edit">Edit Category</a></td>
+	<td><a class="hyper" href="/category/<%= category.id %>/posts/new"> Create a new Post</a></td>
+	</table>
+	<h1><%= category.title %></h1> 
+
+	<p><%= category.body %></p>
+</br>
+
+<img src="<%= category.image %>">
+<br>
+
+<!-- <p><%= posts.length %></p> -->
+
+<ul>
+	<% for (var i = 0; i<posts.length; i++) { %>
+	<li><a class="list" href="/post/<%= posts[i].id %>"><%=posts[i].title%> </a></li> 
+
+	<%}%> </ul>
+</br></br></br>
+<form method="POST" action="/forum/<%= category.id %>/upvote">
+	<%= category.Upvotes %> <input type="submit" value="Like">
+
+</form>
+<form method="POST" action="/forum/<%= category.id %>/downvote">
+	<%= category.Downvotes %><input type="submit" value="Dislike">
+</form></br>
+
+
+<p><form method="POST" action="/forum/<%= category.id %>?_method=DELETE">
+	<input type="submit" value="Delete" style="border:2px green solid;"/>
+</form></p></br>
+
+<br/>
+
+
+
+</body>
+</html>

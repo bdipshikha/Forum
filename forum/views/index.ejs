@@ -1,24 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" /> -->
-<!-- <script src="path/to/select2.min.js"></script> -->
+<style> 
+		h1 {
+			text-align: center;
+			color: #F00;
+			font-family: chalkduster;
+		}
+		.list {
+			padding: 0px 0px 10px;
+			font-size: 20px;
+			color: tan;
+		}
+		body {
+			text-align: left;
+			background-color: #E0F8FF;
+			margin: 30px;
+			padding: 0px 10px 5px;
+		}
+
+		.hyper {
+			color: green;
+		}
+		
+		p {
+			text-align: justify;
+			color: blue;
+			font-family: times new roman;
+			font-size: 18px;
+		}
+		
+		ul {
+			padding: 10px 10px 10px 20px;
+			list-style-type: none;
+
+		}
+		li {
+			border-style: outset;
+			background-color: #195019;
+			border-width: thick;
+			text-align: center;
+			width: 200px;
+			margin: auto;
+		}
+		table {
+			width: 2000px;
+		}
+
+
+
+	</style>
 </head>
 <body>
-	<h1>Welcome to the Forum</h1>
-	<p>
-				<p> 
-		<form method="POST" action="http://localhost:3000/index">
+<table>
+<td><a class="hyper" href="/categories/new"> Create a new Category</a></td>
+<td><form method="POST" action="http://localhost:3000/index">
 		<input type="text" name="search" placeholder="search" required>  
-		<input type="submit" value="submit" />
+		<input type="submit" value="submit" /></td>
+</table>
+	<h1>Forum</h1>
+	<p>
+				
 	<ul>
 		<%forum.forEach(function(obj) { %> 
 			<li style="padding:4px;">
-				<%= obj.id %> <a href="/forum/<%= obj.id %>"><%= obj.title %> </a>	
+				<a class="list" href="/forum/<%= obj.id %>"><%= obj.title %> </a>	
 			</li>
 		<% }); %>
 	</ul>
 	</p>	
-	<a href="/catagories/new"> Create a new Catagory</a>
 </body>
 </html>

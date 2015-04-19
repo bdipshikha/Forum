@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <head>
 	<style>
@@ -14,9 +15,7 @@
 			width: 400px;
 			font-size: 13px;
 		}
-		input[type="date"] {
-			font-size: 20px;
-		}
+
 		a {
 			color: green;
 		}
@@ -39,17 +38,16 @@
 	</style>
 </head>
 <body>
-	<a href="/">Back to Forum</a></br>
-	<h3>Update <%= thisPost.title %></h3>
+	<a href="/">Back to Forum</a>
 
-	<p><form action ="/post/<%= thisPost.id %>/update?_method=PUT" method="POST">
-		<input type="date" name="date" placeholder="date"></br> </p>
-		<p><input class="text" type="text" name="title" value="<%= thisPost.title %>"></br></p>
-		<textarea rows="15" cols="100" name="content" ><%= thisPost.body %></textarea></br> 
+	<h3>Update <%= thisCategory.title %></h3>
+	<form action ="/forum/<%= thisCategory.id %>?_method=PUT" method="POST">
+		<p><input class="text" type="text" name="title" value="<%= thisCategory.title %>"></br></p>
+		<textarea rows="15" cols="100" name="content" ><%= thisCategory.body %></textarea></br></br>
 		<!-- needs to be body not content -->
-		<input class="image" type="text" name="image" value="<%= thisPost.image %>">
-		<button>Submit</button>
+		<input class="image" type="text" name="image" value="<%= thisCategory.image %>">
+				<button>Submit</button>
 	</form>
-	
+	<!-- <a href="/">Back to Forum</a> -->
 </body>
 </html> 

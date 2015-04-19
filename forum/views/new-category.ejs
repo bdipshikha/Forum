@@ -37,21 +37,28 @@
 			font-size: 18px;
 		}
 		img {
-			margin: 50px 20px 20px 150px;
+			width: 300px;
+			height: 200px;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
 		}
+
 	</style>
 
 </head>
 <body>
 <a href="/">Back to Forum</a></br>
-	<h1>Create New Post</h1>
-	<p><form action ="/category/<%= category_id %>/post/savenewpost" method="POST">
-		<input type="date" name="date" placeholder="date"></br></p> 
-		<input class="text" type="text" name="title" placeholder="title"><br></p>
-		<textarea rows="15" cols="100" name="body" placeholder="body"></textarea><br></p> 
-		<input class="image" type="text" name="image" placeholder="url" >
-		<input type="submit" value="Save New Post" style="border:2px green solid;"/>
+	<h1>Create a new Category</h1>
+	<form action ="/categories" method="POST">
+		<p><input class="text" type="text" name="title" placeholder="title" required><br></p>
+
+		<p><textarea rows="15" cols="100" name="body" placeholder="body"></textarea><br></p>
+		<input class="image" type="text" name="image" placeholder="url">
+		
+		<input type="submit" value="Save New Category" style="border:2px green solid;"/>
+			
 	</form><br>
-	<!-- <a href="/">Back to Forum</a> -->
+	
 </body>
 </html>
