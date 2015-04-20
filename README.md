@@ -11,3 +11,11 @@ User specification:
 8. A user will be able to "upvote" a category if he/she likes the category.
 9. A user will be able to see the "vote totals" of a given forum post or category.
 10 A user can "downvote" a forum post or category if he/she doesn't like the category or post.
+
+Following node_modules were used to create the forum:
+	Express;
+	ejs;
+	body-parser;
+	method-override;
+	markdown;
+	sqlite3
