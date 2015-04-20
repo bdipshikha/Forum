@@ -62,9 +62,9 @@
 	<p>
 				
 	<ul>
-		<%forum.forEach(function(obj) { %> 
+		<%forum.forEach(function(category) { %> 
 			<li style="padding:4px;">
-				<a class="list" href="/forum/<%= obj.id %>"><%= obj.title %> </a>	
+				<a class="list" href="/forum/<%= category.id %>/page/1"><%= category.title %> </a>	
 			</li>
 		<% }); %>
 	</ul>

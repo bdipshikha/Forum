@@ -13,7 +13,7 @@
 		}
 		input[type="text"].image {
 			width: 400px;
-			font-size: 13px;
+			font-size: 15px;
 		}
 
 		a {
@@ -22,7 +22,7 @@
 		body {
 			text-align: left;
 			background-color: #E0F8FF;
-			margin: 20px;
+			margin: 30px;
 			padding: 0px 10px 5px;
 		}
 		input[type="text"] {
@@ -41,7 +41,7 @@
 	<a href="/">Back to Forum</a>
 
 	<h3>Update <%= thisCategory.title %></h3>
-	<form action ="/forum/<%= thisCategory.id %>?_method=PUT" method="POST">
+	<form action ="/forum/<%= thisCategory.id %>/page/1?_method=PUT" method="POST">
 		<p><input class="text" type="text" name="title" value="<%= thisCategory.title %>"></br></p>
 		<textarea rows="15" cols="100" name="content" ><%= thisCategory.body %></textarea></br></br>
 		<!-- needs to be body not content -->

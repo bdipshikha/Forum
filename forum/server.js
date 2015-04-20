@@ -28,15 +28,15 @@ app.get('/', function(req, res){
 
 // to get all the catagories
 app.get('/forums', function(req, res) { // all posts, blogs
-    db.all("SELECT * FROM categories;", function(err, data) { // db for database not the name of database
-        if (err) {
-            throw (err)
-        }  else {
-            var forum = data;
-                //console.log(forum)
-            }
-            res.render('index.ejs', {forum: forum});    
-        });
+db.all("SELECT * FROM categories;", function(err, data) { // db for database not the name of database
+    if (err) {
+        throw (err)
+    }  else {
+        var forum = data;
+        //console.log(forum)
+    }
+    res.render('index.ejs', {forum: forum});    
+});
 });
 
 // *************** added new code for search ******************
@@ -54,28 +54,33 @@ app.get('/forums', function(req, res) { // all posts, blogs
 // *************************** new code end ************************
 
 // to get single catagory
-app.get('/forum/:id', function(req, res){
+app.get('/forum/:id/page/:pageno', function(req, res){
     var id = req.params.id;
+    var pageno = req.params.pageno;
     db.get("SELECT * FROM categories WHERE id = ?", id, function(err, thisCategory){
         var category_row = thisCategory;
         console.log(category_row);
         var category_id = req.params.id
-        //if(req.query.offset === undefined) { req.query.offset = 0; }
+
         var SQL = "SELECT posts.id, posts.title, strftime('%s',date) - strftime('%s','now') " +
-                  "FROM posts INNER JOIN categories ON categories.id = posts.category_id  " +
-                  "WHERE strftime('%s',date) - strftime('%s','2015-04-01') > 0 and category_id = ? LIMIT 3";
+        "FROM posts INNER JOIN categories ON categories.id = posts.category_id  " +
+        "WHERE strftime('%s',date) - strftime('%s','2015-04-01') > 0 and category_id = ?";
 
-                  // strftime('%s',date) - strftime('%s','2015-04-01') > 0 and 
+            console.log(SQL);
+                db.all(SQL, thisCategory.id, function(err, posts){
+                    var page = [];
+                    var S = (req.params.pageno - 1) * 10; // pagesize = 10 since 10 posts per page
+                    var E = S + 9 // (pagesize (10) - 1 = 9 )
+                    for (var i = S; i <= E && i < posts.length; i++) {
+                        page[i-S] = posts[i];                
+                    }
 
-        console.log(SQL);
-        db.all(SQL, thisCategory.id, function(err, posts){
-            console.log(err);
             var post_row = posts;
-            console.log("=================== start posts =======");
-            console.log(post_row);
-            console.log("=================== end posts =========");
-    
-            res.render('show-category.ejs', {'category': category_row, 'posts': posts })
+                console.log("=================== start posts =======");
+                console.log(post_row);
+                console.log("=================== end posts =========");
+
+            res.render('show-category.ejs', {'category': category_row, 'posts': page })
         });     
     });
 });
@@ -90,17 +95,17 @@ app.post('/categories', function(req, res){
 
     console.log('Trying to create categories');
     console.log(req.body)
-    //get info from req.body, make new post
-    db.run("INSERT INTO categories (title, body, image, Upvotes, Downvotes) VALUES (?, ?, ?, 0, 0)",  
-        req.body.title, req.body.body, req.body.image, req.body.Upvotes, req.body.Downvotes, function(err) {
+//get info from req.body, make new post
+db.run("INSERT INTO categories (title, body, image, Upvotes, Downvotes) VALUES (?, ?, ?, 0, 0)",  
+    req.body.title, req.body.body, req.body.image, req.body.Upvotes, req.body.Downvotes, function(err) {
         if (err) {
             throw err;
         } else {
             console.log("Successfully inserted into categories despite bad syntac");
         }
     });
-    //go to forum so we can see our new catagory
-    res.redirect('/forums')
+//go to forum so we can see our new catagory
+res.redirect('/forums')
 });
 
 app.get('/forum/:id/edit', function(req, res){
@@ -113,61 +118,61 @@ app.get('/forum/:id/edit', function(req, res){
         }
     });
 });
-app.put('/forum/:id', function(req, res){
+app.put('/forum/:id/page/1', function(req, res){
     console.log("put");
-    //make changes to appropriate post
-    db.run("UPDATE categories SET title = ?, body = ?, image = ?  WHERE id = ?", req.body.title, req.body.content, req.body.image, req.params.id, function(err) {
-        if (err) {
-            throw err
-        } // console.log(res)
-    })
-    //redirect to this indivudual category page to see changes
-    res.redirect('/forum/' + req.params.id)// needs to be blog not blogs since only one post
+//make changes to appropriate post
+db.run("UPDATE categories SET title = ?, body = ?, image = ?  WHERE id = ?", req.body.title, req.body.content, req.body.image, req.params.id, function(err) {
+    if (err) {
+        throw err
+} // console.log(res)
+})
+//redirect to this indivudual category page to see changes
+res.redirect('/forum/' + req.params.id + "/page/1")// needs to be blog not blogs since only one post
 });
 
 app.post('/forum/:id/upvote', function(req, res){
-    //console.log("put");
-    db.run("UPDATE categories SET Upvotes = 1 + Upvotes WHERE id = ?",  req.params.id, function(err) {
-        if (err) {
-            throw err;
-        }  
-        console.log("---  inside upvote ---");
-        console.log(req.body);
-    })
-  
-    res.redirect('/forum/' + req.params.id)
+//console.log("put");
+db.run("UPDATE categories SET Upvotes = 1 + Upvotes WHERE id = ?",  req.params.id, function(err) {
+    if (err) {
+        throw err;
+    }  
+    console.log("---  inside upvote ---");
+    console.log(req.body);
+})
+
+res.redirect('/forum/' + req.params.id + "/page/1")
 });
 
 app.post('/forum/:id/downvote', function(req, res){
-    //console.log("put");
-    db.run("UPDATE categories SET Downvotes = Downvotes -1 WHERE id = ?",  req.params.id, function(err) {
-        if (err) {
-            throw err;
-        }  
-        //console.log("---  inside upvote ---");
-        console.log(req.body);
-    })
-   
-    res.redirect('/forum/' + req.params.id)
+//console.log("put");
+db.run("UPDATE categories SET Downvotes = Downvotes -1 WHERE id = ?",  req.params.id, function(err) {
+    if (err) {
+        throw err;
+    }  
+//console.log("---  inside upvote ---");
+console.log(req.body);
+})
+
+res.redirect('/forum/' + req.params.id + "/page/1")
 });
 
 app.delete("/forum/:id", function(req, res) {
-db.get("SELECT * FROM posts WHERE posts.category_id = ?", req.params.id, function(err, posts) {
-    if(err) {
-        throw err;
-    }
-    if (posts === undefined) {    
-        console.log("no post for this category so deleting will work")
-        db.run("DELETE FROM categories WHERE id = ?", req.params.id, function(err) {
-            if (err) {
-                throw err;
-            } 
-        }); 
-        console.log("its working!");
-    } else {
-        console.log("Can't delete a category with posts!");
-    }
-});
+    db.get("SELECT * FROM posts WHERE posts.category_id = ?", req.params.id, function(err, posts) {
+        if(err) {
+            throw err;
+        }
+        if (posts === undefined) {    
+            console.log("no post for this category so deleting will work")
+            db.run("DELETE FROM categories WHERE id = ?", req.params.id, function(err) {
+                if (err) {
+                    throw err;
+                } 
+            }); 
+            console.log("its working!");
+        } else {
+            console.log("Can't delete a category with posts!");
+        }
+    });
     res.redirect('/forums')
 });
 
@@ -194,19 +199,19 @@ app.get('/category/:categoryid/posts/new', function(req, res){
 app.post('/category/:catid/post/savenewpost', function(req, res){
     var catid = req.params.catid;
     console.log(req.body)
-    //get info from req.body, make new post
-    db.run("INSERT INTO posts (category_id, title, body, image, Upvotes, Downvotes, date) " 
-            + "VALUES (?, ?, ?, ?, 0, 0, ?)",  
-            catid, req.body.title, req.body.body, req.body.image, req.body.date, function(err) {
+//get info from req.body, make new post
+db.run("INSERT INTO posts (category_id, title, body, image, Upvotes, Downvotes, date) " 
+    + "VALUES (?, ?, ?, ?, 0, 0, ?)",  
+    catid, req.body.title, req.body.body, req.body.image, req.body.date, function(err) {
         if (err) {
             console.log("error in inserting");
             throw err;
         } else {
             console.log("no error");
         }
-        res.redirect('/forum/'+catid);
+        res.redirect('/forum/'+catid+'/page/1');
     });
-    //go to forum so we can see our new catagory
+//go to forum so we can see our new catagory
 
 });
 app.get('/post/:id/edit', function(req, res){
@@ -221,46 +226,46 @@ app.get('/post/:id/edit', function(req, res){
 });
 
 app.put('/post/:id/update', function(req, res){
-    //console.log("put");
-    //var catid = req.params.catid;
-    //make changes to appropriate post
-    db.run("UPDATE posts SET  title = ?, body = ?, image = ?, date = ? WHERE id = ?",  req.body.title, 
-        req.body.content, req.body.image, req.body.date, req.params.id, function(err) {
+//console.log("put");
+//var catid = req.params.catid;
+//make changes to appropriate post
+db.run("UPDATE posts SET  title = ?, body = ?, image = ?, date = ? WHERE id = ?",  req.body.title, 
+    req.body.content, req.body.image, req.body.date, req.params.id, function(err) {
         if (err) {
             throw err
-        } // console.log(res)
-    })
-    //redirect to this blog page to see changes
-    res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
+} // console.log(res)
+})
+//redirect to this blog page to see changes
+res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
 });
 
 app.post('/post/:id/upvote', function(req, res){
-    //console.log("put");
-    db.run("UPDATE posts SET Upvotes = 1 + Upvotes WHERE id = ?",  req.params.id, function(err) {
-        if (err) {
-            throw err;
-        }  
-        console.log("---  inside upvote ---");
-        console.log(req.params.id);
-    })
-    //redirect to this blog page to see changes
-    res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
+//console.log("put");
+db.run("UPDATE posts SET Upvotes = 1 + Upvotes WHERE id = ?",  req.params.id, function(err) {
+    if (err) {
+        throw err;
+    }  
+    console.log("---  inside upvote ---");
+    console.log(req.params.id);
+})
+//redirect to this blog page to see changes
+res.redirect('/post/' + req.params.id)// needs to be blog not blogs since only one post
 });
 
 app.post('/post/:id/downvote', function(req, res){
-    //console.log("put");
-    db.run("UPDATE posts SET Downvotes = Downvotes -1 WHERE id = ?",  req.params.id, function(err) {
-        if (err) {
-            throw err;
-        }  
-        //console.log("---  inside upvote ---");
-        console.log(req.body);
-    })
-    res.redirect('/post/' + req.params.id)
+//console.log("put");
+db.run("UPDATE posts SET Downvotes = Downvotes -1 WHERE id = ?",  req.params.id, function(err) {
+    if (err) {
+        throw err;
+    }  
+//console.log("---  inside upvote ---");
+console.log(req.body);
+})
+res.redirect('/post/' + req.params.id)
 });
 app.post ('/post/:id/comment', function(req, res) {
 
-        db.run("INSERT INTO comments (post_id, comment) VALUES (?, ?)", req.params.id, req.body.comment, function(err) {
+    db.run("INSERT INTO comments (post_id, comment) VALUES (?, ?)", req.params.id, req.body.comment, function(err) {
         if (err) {
             console.log("error in interesting");
             throw err;
@@ -277,8 +282,8 @@ app.delete("/post/:id", function(req, res){
             throw err
         }
     })
-    //go to forum to see change
-    res.redirect('/forums')
+//go to forum to see change
+res.redirect('/forums')
 });
 app.listen('3000')
 console.log("Listing to port 3000")

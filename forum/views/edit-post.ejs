@@ -12,7 +12,7 @@
 		}
 		input[type="text"].image {
 			width: 400px;
-			font-size: 13px;
+			font-size: 15px;
 		}
 		input[type="date"] {
 			font-size: 20px;
@@ -26,13 +26,7 @@
 			margin: 20px;
 			padding: 0px 10px 5px;
 		}
-		input[type="text"] {
-			width: 400px;
-			font-size: 20px;
-		}
-		input[type="date"] {
-			font-size: 20px;
-		}
+
 		textarea {
 			font-size: 12px;
 		}
@@ -45,7 +39,7 @@
 	<p><form action ="/post/<%= thisPost.id %>/update?_method=PUT" method="POST">
 		<input type="date" name="date" placeholder="date"></br> </p>
 		<p><input class="text" type="text" name="title" value="<%= thisPost.title %>"></br></p>
-		<textarea rows="15" cols="100" name="content" ><%= thisPost.body %></textarea></br> 
+		<textarea rows="15" cols="100" name="content" ><%= thisPost.body %></textarea></br></br> 
 		<!-- needs to be body not content -->
 		<input class="image" type="text" name="image" value="<%= thisPost.image %>">
 		<button>Submit</button>
