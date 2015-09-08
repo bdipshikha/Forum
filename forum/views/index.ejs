@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <style> 
 		h1 {
 			text-align: center;
@@ -11,30 +12,31 @@
 			padding: 0px 0px 10px;
 			font-size: 20px;
 			color: tan;
+			font-family: helvetica;
 		}
 		body {
-			text-align: left;
-			background-color: #E0F8FF;
+			text-align: center;
 			margin: 30px;
 			padding: 0px 10px 5px;
 		}
 
 		.hyper {
 			color: green;
+			font-family: helvetica;
 		}
 		
 		p {
 			text-align: justify;
-			color: blue;
-			font-family: times new roman;
+			color: #195019;
+			font-family: helvetica;
 			font-size: 18px;
 		}
 		
 		ul {
 			padding: 10px 10px 10px 20px;
 			list-style-type: none;
-
 		}
+		
 		li {
 			border-style: outset;
 			background-color: #195019;
@@ -43,8 +45,18 @@
 			width: 200px;
 			margin: auto;
 		}
-		table {
-			width: 2000px;
+		input[type="text"] {
+			border: 1px solid;
+			height: 30px;
+			width: 40%;
+			font-size: 25px;
+		}
+		input[type="submit"] {
+			background-color: #195019;
+			color: tan; 
+			font-weight: bold;
+			font-size: 20px;
+			border: 1px tan solid;
 		}
 
 
@@ -52,19 +64,23 @@
 	</style>
 </head>
 <body>
+
 <table>
-<td><a class="hyper" href="/categories/new"> Create a new Category</a></td>
-<td><form method="POST" action="http://localhost:3000/index">
-		<input type="text" name="search" placeholder="search" required>  
-		<input type="submit" value="submit" /></td>
+	<td><a class="hyper" href="/categories/new"> Create a new Category</a></td>
 </table>
+
+
 	<h1>Forum</h1>
+	<form  method="POST" action="http://localhost:3000/search-result">
+		<input type="text" name="search" placeholder="search" required>  
+		<input type="submit" value="submit">
+	</form></br></br>
 	<p>
 				
 	<ul>
 		<%forum.forEach(function(category) { %> 
 			<li style="padding:4px;">
-				<a class="list" href="/forum/<%= category.id %>/page/1"><%= category.title %> </a>	
+				<a class="list" href="/forum/<%= category.id %>/page/1"><%= category.title %></a>	
 			</li>
 		<% }); %>
 	</ul>

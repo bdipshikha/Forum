@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<head>
+	<style>
+		body {
+			margin: 30px;
+			padding-left: 30px;
+			padding-right: 20px;
+			text-align: center;
+			
+		}
+		#link {
+			float: left;
+		}
+		.title {
+			text-decoration: none;
+			color: green;
+		}
+		h4 {
+			text-align: left;
+			color: red;
+			font-family: helvetica;
+		}
+		ul {
+			padding: 10px 10px 10px 20px;
+			list-style-type: none;
+		}
+
+		li {
+			height: 150px;
+			text-align: justify;
+			width: 300px;
+			color: tan;
+			float: left;
+			margin: 20px;
+			border: 1px solid black;
+			padding: 10px;
+			font-family: helvetica;
+		}
+		p {
+			font-size: 14px;
+		}
+		input[type="text"] {
+			border: 1px solid;
+			height: 30px;
+			width: 40%;
+			font-size: 20px;
+		}
+		input[type="submit"] {
+			background-color: #195019;
+			color: tan; 
+			font-weight: bold;
+			font-size: 18px;
+			border: 1px tan solid;
+		}
+		
+		.pic {
+			height: 100px;
+			width: 150px;
+			padding-right: 3px;
+		}
+		h4 {
+			font-size: 25px;
+			color: red;
+			font-family: helvetica;
+		}
+		
+	</style>
+</head>
+<body>
+
+	<table>
+		<td><a class="hyper" href="/">Back to Forum</a></td>
+	</table></br></br>
+
+	<form method="POST" action="http://localhost:3000/search-result">
+		<input type="text" name="search" placeholder="search" required>  
+		<input type="submit" value="submit"/>
+	</form></br>
+
+	<% if (posts.length == 0) { %>
+		<h4> Your search for "<%= search %>" returned no result </h4>
+	<% } else { %>
+		<h4> Results from your search "<%= search %>" (ordered by vote) are listed below: </h4>
+
+	<ul>
+		<% for (var i = 0; i<posts.length; i++) { %>
+			<li border = "1px solid;">
+				<a class = "title" href='/post/<%= posts[i].id %>'><%= posts[i].title %></br>
+			<table>
+				<td>
+					<img class = "pic" src="<%= posts[i].image %>">
+				</td>
+				<td>
+					<p><%= posts[i].body.substring(0, 100) %>...</p></a>
+				</td>
+			</table>
+			</li>
+		<% } %>
+	</ul>
+	<% } %>
+
+	</body>
+</html>

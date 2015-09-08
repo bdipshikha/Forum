@@ -8,9 +8,8 @@
 		}
 		body {
 			text-align: justify;
-			background-color: #E0F8FF;
-			margin: 20px;
-			padding: 0px 10px 5px;
+			margin-left: 20px;
+			padding: 10px 20px 5px 10px;
 		}
 		a {
 			color: green;
@@ -18,13 +17,13 @@
 		
 		p {
 			text-align: justify;
-			color: blue;
-			font-family: times new roman;
+			color: #195019;
+			font-family: helvetica;
 			font-size: 18px;
 		}
 		img {
-			width: 500px;
-			height: 300px;
+			width: 400px;
+			height: 250px;
 			margin-left: auto;
 			margin-right: auto;
 			display: block;
@@ -39,8 +38,22 @@
 			padding: 0px 10px 10px 10px;
 		}
 		table {
-			width: 1500px;
+			width: 800px;
 			padding: 10px;		
+		}
+		#side {
+			float: right;
+			width: 450px;
+			height: 100%;
+		}
+		#main {
+			padding-right: 25px;
+			height: 100%;
+			padding-left: 15px;
+			width: 700px;						
+		}
+		#bottom {
+			width:100%;
 		}
 	</style>
 </head>
@@ -52,25 +65,28 @@
 	</table>
 
 	<h1><%= post.title %></h1> 
+	<div id = "side">
+		<img src="<%= post.image %>">
+	</div>
 
-	<p> 
-		<%- post.body %></br>
-	</p>
+	<div id = "main">
+		<p> 
+			<%- post.body %></br>
+		</p>
+	
+		<form method="POST" action="/post/<%= post.id %>/upvote">
+			<%= post.Upvotes %> <input type="submit" value="Like">
+		</form>
+		<form method="POST" action="/post/<%= post.id %>/downvote">
+			<%= post.Downvotes %><input type="submit" value="Dislike">
+		</form></br>
 
+		<form method="POST" action="/post/<%= post.id %>?_method=DELETE">
+			<input type="submit" value="Delete" style="border:2px green solid;"/>
+		</form>
+	</div>
 
-	<img src="<%= post.image %>"><br>
-	<form method="POST" action="/post/<%= post.id %>/upvote">
-		<%= post.Upvotes %> <input type="submit" value="Like">
-	</form>
-	<form method="POST" action="/post/<%= post.id %>/downvote">
-		<%= post.Downvotes %><input type="submit" value="Dislike">
-	</form></br>
-
-
-
-	<form method="POST" action="/post/<%= post.id %>?_method=DELETE">
-		<input type="submit" value="Delete" style="border:2px green solid;"/>
-	</form>
+	<div id = "bottom">
 
 	<hr></hr>
 
@@ -89,6 +105,6 @@
 		<li><%= comments[i].comment %></li>
 		<% }%>
 	</ul>
-
+	</div>
 </body>
 </html>
