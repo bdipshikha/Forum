@@ -71,10 +71,16 @@ app.get('/forum/:id/page/:pageno', function(req, res){
         console.log(category_row);
         var category_id = req.params.id
 
-        var SQL = "SELECT posts.id, posts.title, strftime('%s',date) - strftime('%s','now') " +
-        "FROM posts INNER JOIN categories ON categories.id = posts.category_id  " +
-        "WHERE strftime('%s',date) - strftime('%s','2015-04-01') > 0 and category_id = ?";
+        var SQL = "SELECT posts.id, posts.title FROM posts INNER JOIN categories ON categories.id = posts.category_id WHERE category_id = ?;"
 
+/////////////////////////////****************/////////////////////////////////////////
+    // to remove expired posts from the database call, use the following "var SQL" command which includes
+    // strftime clause 
+
+        // var SQL = "SELECT posts.id, posts.title, strftime('%s',date) - strftime('%s','now') " +
+        // "FROM posts INNER JOIN categories ON categories.id = posts.category_id  " +
+        // "WHERE strftime('%s',date) - strftime('%s','2015-04-01') > 0 and category_id = ?";
+//////////////////////////////////////////////////////////*****************///////////////////////////////
             console.log(SQL);
                 db.all(SQL, thisCategory.id, function(err, posts){
                     var page = [];
