@@ -167,7 +167,7 @@ app.delete("/forum/:id", function(req, res) {
             throw err;
         }
         // to make sure a category which contains post can't be deleted
-        if (posts === undefined) {    
+         if (posts === undefined) {    
             console.log("no post for this category so deleting will work")
             db.run("DELETE FROM categories WHERE id = ?", req.params.id, function(err) {
                 if (err) {
@@ -180,7 +180,7 @@ app.delete("/forum/:id", function(req, res) {
         }
     });
     res.redirect('/forums')
-});
+ });
 
 // to get single post in a category
 
@@ -206,6 +206,7 @@ app.get('/category/:categoryid/posts/new', function(req, res){
 app.post('/category/:catid/post/savenewpost', function(req, res){
     var catid = req.params.catid;
     console.log(req.body)
+
 //get info from req.body, make new post
 db.run("INSERT INTO posts (category_id, title, body, image, Upvotes, Downvotes, date) " 
     + "VALUES (?, ?, ?, ?, 0, 0, ?)",  
