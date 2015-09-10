@@ -12,7 +12,7 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false}))
 
 //method override setup
-var methodOverride = require('method-Override')
+var methodOverride = require('method-override')
 //tell app which override method to use
 app.use(methodOverride('_method'))
 
