@@ -22,6 +22,7 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('./forumdb/forum.db');
 var markdown = require( "markdown" ).markdown;
 
+
 app.get('/', function(req, res){
     res.redirect('/forums')
 });
@@ -66,6 +67,7 @@ app.get('/forum/:id/page/:pageno', function(req, res){
     var pageno = req.params.pageno;
     db.get("SELECT * FROM categories WHERE id = ?", id, function(err, thisCategory){
         var category_row = thisCategory;
+        category_row.body = markdown.toHTML(category_row.body);
         console.log(category_row);
         var category_id = req.params.id
 
