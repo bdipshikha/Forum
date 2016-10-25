@@ -2,52 +2,126 @@
 <!DOCTYPE html>
 <head>
 	<style>
-		h3 {
+		h1 {
 			text-align: center;
 			font-family: chalkduster;
-			color:#F00;
+			color:tan;
+			margin-bottom: 30px;
+		}
+
+		h2 {
+			color: tan;
 		}
 		input[type="text"].text {
-			width: 400px;
+			padding-left: 5px;
+			height: 40px;
+			width: 100%;
 			font-size: 20px;
+			border-radius: 3px;
 		}
 		input[type="text"].image {
-			width: 400px;
-			font-size: 15px;
+			height: 40px;
+			padding-left: 5px;
+			width: 100%;
+			font-size: 20px;
+			margin-right: 15px;
+			border-radius: 3px;
 		}
 
 		a {
 			color: green;
 		}
 		body {
+			margin-right: 0px;
+			margin-left: 0px;
+			overflow-x: hidden;
+			/*overflow-y: hidden;*/
 			text-align: left;
-			/*background-color: #E0F8FF;*/
-			margin: 30px;
-			padding: 0px 10px 5px;
+			margin-top: 0px;
 		}
-		input[type="text"] {
-			width: 400px;
-			font-size: 20px;
+		button {
+			height: 40px;
+			font-size: 25px;
+			width: 101%;
+			background-color: #3399ff;
+			color: tan;
+			border-radius: 3px;
 		}
-		input[type="date"] {
-			font-size: 20px;
-		}
+
 		textarea {
-			font-size: 12px;
+			width: 100%;
+			padding-left: 5px;
+			font-size: 18px;
 		}
+
+		.nav {
+			float: left;
+			border-style: none;
+			text-align: center;
+			width: auto;
+			height: 49px;
+			margin-left: -40px;
+			margin-bottom: -20px;
+			/*margin-bottom: -100px;*/
+		}
+		.nav a {
+			display: block;
+    		color: #dddfd4;
+    		text-align: center;
+    		padding-top: 14px;
+    		padding-bottom: 60px;
+    		padding-left: 20px;
+    		padding-right: 20px; 
+    		text-decoration: none;
+		}
+		.nav a:hover {
+			background-color: #3fb0ac;
+		}
+
+		.background-img {
+			position: relative;
+			width: 100%;
+			height: 800px;
+			opacity: 0.7;
+		}
+
+		.pageContent {
+			left: 20%;
+			width: 60%;
+			position: absolute;
+			top: 10%;
+		}
+		label {
+			font-size: 25px;
+			color: tan;
+		}
+
 	</style>
+		<title>Forum</title>
 </head>
 <body>
-	<a href="/">Back to Forum</a>
+	<nav style="margin:0px;">
+		<ul style="margin:0px;background-color:#5a5c51;width:100%;height:47px;overflow:hidden;opacity:0.9;text-align:left;">
+			<li class="nav"><a class="hyper" href="/">Home</a></li>
+		</ul>
+	</nav>
 
-	<h3>Update <%= thisCategory.title %></h3>
-	<form action ="/forum/<%= thisCategory.id %>/page/1?_method=PUT" method="POST">
-		<p><input class="text" type="text" name="title" value="<%= thisCategory.title %>"></br></p>
-		<textarea rows="15" cols="100" name="content" ><%= thisCategory.body %></textarea></br></br>
+	<img class="background-img" src="http://orig05.deviantart.net/9dd0/f/2012/335/b/5/nice_landscape__by_megustadeviantart-d5mpwu2.jpg">
+
+	<div class="pageContent">
+		<h1>Update <%= thisCategory.title %></h1>
+		<form action ="/forum/<%= thisCategory.id %>/page/1?_method=PUT" method="POST">
+			
+			<label>Title:</label>
+			<input class="text" type="text" name="title" value="<%= thisCategory.title %>"></br></br>
+			
+			<label>Content:</label>
+			<textarea rows="15" cols="100" name="content" ><%= thisCategory.body %></textarea></br></br>
 		<!-- needs to be body not content -->
-		<input class="image" type="text" name="image" value="<%= thisCategory.image %>">
-				<button>Submit</button>
-	</form>
-	<!-- <a href="/">Back to Forum</a> -->
+			<label>Image-Url:</label>
+			<input class="image" type="text" name="image" value="<%= thisCategory.image %>"></br></br>
+			<button>Submit</button>
+		</form>
+	</div>
 </body>
 </html> 

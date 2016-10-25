@@ -3,13 +3,15 @@
 	<style>
 		h1 {
 			text-align: center;
-			color: #F00;
+			color: tan;
 			font-family: chalkduster;
 		}
 		body {
+			overflow-x: hidden;
 			text-align: justify;
-			margin-left: 20px;
-			padding: 10px 20px 5px 10px;
+			margin-top: 0pc;
+			margin-right: 0px;
+			margin-left: 0px;
 		}
 		a {
 			color: green;
@@ -28,19 +30,15 @@
 			margin-right: auto;
 			display: block;
 		}
-		ul {
-			padding: 10px 10px 10px 20px;
-			list-style-type: none;
-			margin: auto;
 
+		ul {
+			list-style-type: none;
 		}
+
 		li {
-			padding: 0px 10px 10px 10px;
+			/*padding: 0px 10px 10px 10px;*/
 		}
-		table {
-			width: 800px;
-			padding: 10px;		
-		}
+
 		#side {
 			float: right;
 			width: 450px;
@@ -54,57 +52,165 @@
 		}
 		#bottom {
 			width:100%;
+			margin-top: 0px;
 		}
+
+		.background-img {
+			display: block;
+			position: relative;
+			width: 100%;
+			height: 1300px;
+			opacity: 0.7;
+		}
+
+		.pageContent {
+			padding-left: 30px;
+			padding-right: 30px;
+			background-color: white;
+			left: 5%;
+			right: 5%;
+			width: 85%;
+			position: absolute;
+			top: 20%;
+			opacity: 0.7;
+		}
+
+		.delete {
+			margin-right: 50px;
+			margin-bottom: 15px;
+			float: right;
+
+		}
+
+		.deleteIcon {
+			float: right;
+			height: 50px;
+			width: 50px;
+		}
+
+		.vote {
+			margin-left: 350px;
+			padding-bottom: 60px;
+		}
+		.inline {
+			float:left;
+			text-align: center;
+		}
+
+		.icon {
+			width: 20px;
+			height: 20px;
+		}
+
+		button {
+			background: transparent;
+			border: none;
+		}
+
+		.nav {
+			float: left;
+			border-style: none;
+			text-align: center;
+			width: auto;
+			height: 49px;
+			padding-right: 30px;
+			margin-left: -40px;
+			margin-bottom: -20px;
+			/*margin-bottom: -100px;*/
+		}
+		.nav a {
+			display: block;
+    		color: #dddfd4;
+    		text-align: center;
+    		padding-top: 14px;
+    		padding-bottom: 60px;
+    		padding-left: 20px;
+    		padding-right: 20px; 
+    		text-decoration: none;
+		}
+		.nav a:hover {
+			background-color: #3fb0ac;
+		}
+		textarea {
+			height: 60px;
+			width: 200px;
+			margin-bottom: 10px;
+		}
+		hr {
+			width: 100%;
+		}
+		.postContent {
+			margin-bottom: 0px;
+		}
+
+
 	</style>
+	<title>Forum</title>
 </head>
 
 <body>
-	<table>
-		<td><a class="hyper" href="/">Back to Forum</a></td>
-		<td><a class="hyper" href="/post/<%= post.id %>/edit">Edit Post</a></td>
-	</table>
+	<nav style="margin:0px;">
+		<ul style="margin:0px;background-color:#5a5c51;width:100%;height:47px;overflow:hidden;opacity:0.9;text-align:left;">
+			<li class="nav"><a class="hyper" href="/">Home</a></li>
+			<li class="nav"><a class="hyper" href="<%= post.id %>/edit">Edit Post</a></li>
+		</ul>
+	</nav>
 
-	<h1><%= post.title %></h1> 
-	<div id = "side">
-		<img src="<%= post.image %>">
+	<img class="background-img" src="http://orig05.deviantart.net/9dd0/f/2012/335/b/5/nice_landscape__by_megustadeviantart-d5mpwu2.jpg">
+
+	<div class="pageContent">
+		<div class="postContent">
+		<h1><%= post.title %></h1> 
+		<div id = "side">
+			<img src="<%= post.image %>">
+		</div>
+
+		<div id = "main">
+			<p> 
+				<%- post.body %></br>
+			</p>
+			
+			<div class="vote">
+				<div class="inline" style="padding-right: 30px;">
+					<form method="POST" action="/post/<%= post.id %>/upvote">
+						<%= post.Upvotes %> <button><img class='icon' src="http://www.freeiconspng.com/uploads/hand-like-thumb-icon--1.png"></button>
+					</form>
+				</div>
+				<div class="inline" style="padding-right: 30px;">
+					<form method="POST" action="/post/<%= post.id %>/downvote">
+						<%= post.Downvotes %><button><img class='icon' src="http://www.freeiconspng.com/uploads/dislike-button-png-1.png"></button>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<div id = "main">
-		<p> 
-			<%- post.body %></br>
-		</p>
-	
-		<form method="POST" action="/post/<%= post.id %>/upvote">
-			<%= post.Upvotes %> <input type="submit" value="Like">
-		</form>
-		<form method="POST" action="/post/<%= post.id %>/downvote">
-			<%= post.Downvotes %><input type="submit" value="Dislike">
-		</form></br>
 
-		<form method="POST" action="/post/<%= post.id %>?_method=DELETE">
-			<input type="submit" value="Delete" style="border:2px green solid;"/>
-		</form>
-	</div>
+<hr>
+		<div id = "bottom">
 
-	<div id = "bottom">
+			<p>Please leave your comments below:</p>
 
-	<hr></hr>
+			<form method="POST" action="/post/<%= post.id %>/comment">
+				<textarea name="comment" placeholder="comment"></textarea></br>
+				<input type="submit">
+			</form></br>
 
-	<p>Please leave your comments below:</p>
+			Comments :
 
-	<form method="POST" action="/post/<%= post.id %>/comment">
-		<textarea name="comment" placeholder="comment"></textarea>
-		<input type="submit">
-	</form></br>
+			<ul>
 
-	Comments :
+				<% for(var i = 0; i<comments.length; i++) { %>
+					<li><%= comments[i].comment %></li>
+				<% }%>
+			</ul>
+		</div>
 
-	<ul>
-
-		<% for(var i = 0; i<comments.length; i++) { %>
-		<li><%= comments[i].comment %></li>
-		<% }%>
-	</ul>
+						<div class="delete">
+					<form method="POST" action="/post/<%= post.id %>?_method=DELETE">
+						<button><img class="deleteIcon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/trash-circle-red-128.png"></button>
+					</form>
+				</div>
 	</div>
 </body>
 </html>

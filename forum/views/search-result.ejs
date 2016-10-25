@@ -1,13 +1,13 @@
 
 <!DOCTYPE html>
 <head>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
 	<style>
 		body {
-			margin: 30px;
-			padding-left: 30px;
-			padding-right: 20px;
 			text-align: center;
-			
 		}
 		#link {
 			float: left;
@@ -16,20 +16,47 @@
 			text-decoration: none;
 			color: green;
 		}
-		h4 {
-			text-align: left;
-			color: red;
-			font-family: helvetica;
+
+		.title:hover {
+			text-decoration: none;
+			color: green;	
 		}
+
 		ul {
-			padding: 10px 10px 10px 20px;
 			list-style-type: none;
 		}
 
-		li {
+		.background-img {
+			position: relative;
+			width: 100%;
+			height: 800px;
+			opacity: 0.7;
+		}
+
+		.image-text {
+			position: absolute;
+			top: 10%;
+		}
+
+		.searchForm {
+			margin-top: 30px;
+			margin-left: 400px;
+			margin-right: 400px;
+			margin-bottom: 60px;
+		}
+		.result {
+			margin-left: 130px;
+		}
+		.search {
+			margin-left: 70px;
+		}
+
+		.searchResult {
+			background-color: white;
+			left: 10%;
 			height: 150px;
 			text-align: justify;
-			width: 300px;
+			width: 340px;
 			color: tan;
 			float: left;
 			margin: 20px;
@@ -42,63 +69,147 @@
 		}
 		input[type="text"] {
 			border: 1px solid;
-			height: 30px;
-			width: 40%;
-			font-size: 20px;
+			height: 40px;
+			width: 100%;
+			font-size: 25px;
+			padding-left: 8px;
 		}
-		input[type="submit"] {
+/*		input[type="submit"] {
 			background-color: #195019;
 			color: tan; 
 			font-weight: bold;
 			font-size: 18px;
 			border: 1px tan solid;
-		}
+		}*/
 		
 		.pic {
 			height: 100px;
 			width: 150px;
-			padding-right: 3px;
+			margin-bottom: 15px;
+			margin-right: 5px;
 		}
 		h4 {
+			text-align: left;
 			font-size: 25px;
-			color: red;
+			color: tan;
 			font-family: helvetica;
 		}
-		
+
+		.navbar {
+			position: fixed;
+			top: 0;
+			left: 0;
+    		width: 100%;
+			list-style-type: none;
+    		margin: 0;
+    		padding: 0;
+    		overflow: hidden;
+    		background-color: #5a5c51;
+    		opacity: 0.8;
+		}
+		.nav {
+			float: left;
+			border-style: none;
+			text-align: center;
+			width: auto;
+			height: 49px;
+			margin-left: -40px;
+			margin-bottom: -20px;
+			/*margin-bottom: -100px;*/
+		}
+		.nav a {
+			display: block;
+    		color: #dddfd4;
+    		text-align: center;
+    		padding-top: 14px;
+    		padding-bottom: 60px;
+    		padding-left: 20px;
+    		padding-right: 20px; 
+    		text-decoration: none;
+		}
+		.nav a:hover {
+			background-color: #3fb0ac;
+		}
+
+
+		.inner-addon { 
+    		position: relative; 
+		}
+
+/* style icon */
+		.inner-addon .glyphicon {
+  		position: absolute;
+  		padding-top: 10px;
+  		padding-right: 10px;
+  		pointer-events: none;
+  		font-size: 22px;
+  		padding-bottom: 15px;
+		}
+		.right-addon .glyphicon { 
+			right: 0px;
+		}
+		.right-addon input { 
+			padding-right: 30px;
+		}
+		@media screen and (min-width: 250px) and (min-width: 768px) {
+			.background {
+				
+			}
+		}
 	</style>
+
+		<title>Forum</title>
 </head>
 <body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-	<table>
-		<td><a class="hyper" href="/">Back to Forum</a></td>
-	</table></br></br>
+	<nav style="margin:0px;">
+		<ul style="margin:0px;background-color:#5a5c51;width:100%;height:47px;overflow:hidden;opacity:0.9;text-align:left;">
+			<li class="nav"><a class="hyper" href="/">Home</a></li>
+		</ul>
+	</nav>
 
-	<form method="POST" action="/search-result">
-		<input type="text" name="search" placeholder="search" required>  
-		<input type="submit" value="submit"/>
-	</form></br>
 
+	<div class="background">
+		<img class="background-img" src="http://orig05.deviantart.net/9dd0/f/2012/335/b/5/nice_landscape__by_megustadeviantart-d5mpwu2.jpg">
+		
+		<div class="image-text">
+		<div class="searchForm">
+			<form  method="POST" action="/search-result">
+				<div class="inner-addon right-addon">
+					<i class="glyphicon glyphicon-search"></i>
+					<input type="text" name="search" placeholder="Search for..." required /> 
+				</div>
+			</form>
+		</div>
+
+<div class="result">
 	<% if (posts.length == 0) { %>
 		<h4> Your search for "<%= search %>" returned no result </h4>
 	<% } else { %>
 		<h4> Results from your search "<%= search %>" (ordered by vote) are listed below: </h4>
-
-	<ul>
+</div>
+	<ul class="search">
 		<% for (var i = 0; i<posts.length; i++) { %>
-			<li border = "1px solid;">
+			<li class="searchResult" border = "1px solid;">
 				<a class = "title" href='/post/<%= posts[i].id %>'><%= posts[i].title %></br>
 			<table>
 				<td>
 					<img class = "pic" src="<%= posts[i].image %>">
 				</td>
 				<td>
-					<p><%= posts[i].body.substring(0, 100) %>...</p></a>
+					<p class="details"><%= posts[i].body.substring(0, 100) %>...</p></a>
 				</td>
 			</table>
 			</li>
 		<% } %>
 	</ul>
 	<% } %>
+	</div>
+	</div>
+	</div>
+
 
 	</body>
 </html>

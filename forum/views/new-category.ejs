@@ -2,29 +2,46 @@
 <head>
 	<style>
 		input[type="text"].text {
-			width: 400px;
+			width: 100%;
+			height: 40px;
 			font-size: 20px;
+			padding-left: 5px;
+			border-radius: 3px;
 		}
 		input[type="text"].image {
-			width: 400px;
-			font-size: 13px;
+			padding-left: 5px;
+			margin-bottom: 20px;
+			width: 100%;
+			height: 40px;
+			font-size: 20px;
+			margin-right: 15px;
+			border-radius: 3px;
 		}
 		input[type="date"] {
 			font-size: 20px;
 		}
 
 		textarea {
-			font-size: 12px;
+			padding-left: 5px;
+			font-size: 16px;
+			width: 100%;
+			border-radius: 3px;
 		}
 		h1 {
 			text-align: center;
-			color: #F00;
+			color: tan;
 			font-family: chalkduster;
+			margin-bottom: 60px;
 		}
 		body {
+			margin-bottom: 0px;
 			text-align: justify;
-			margin: 30px;
-			padding: 0px 10px 5px;
+			margin-bottom: 0px;
+			margin-top: 0px;
+			margin-left: 0px;
+			margin-right: 0px;
+			overflow-x: hidden;
+
 		}
 		a {
 			color: green;
@@ -35,29 +52,80 @@
 			font-family: times new roman;
 			font-size: 18px;
 		}
-		img {
-			width: 300px;
-			height: 200px;
-			margin-left: auto;
-			margin-right: auto;
+
+		.background-img {
+			position: relative;
+			width: 100%;
+			height: 720px;
+			opacity: 0.7;
+		}
+		.nav {
+			float: left;
+			border-style: none;
+			text-align: center;
+			width: auto;
+			height: 49px;
+			margin-left: -40px;
+			margin-bottom: -20px;
+			/*margin-bottom: -100px;*/
+		}
+		.nav a {
 			display: block;
+    		color: #dddfd4;
+    		text-align: center;
+    		padding-top: 14px;
+    		padding-bottom: 60px;
+    		padding-left: 20px;
+    		padding-right: 20px; 
+    		text-decoration: none;
+		}
+		.nav a:hover {
+			background-color: #3fb0ac;
+		}
+
+		.pageContent {
+			left: 20%;
+			width: 60%;
+			position: absolute;
+			top: 10%;
+		}
+
+		button {
+			font-size: 25px;
+			height: 40px;
+			width: 101%;
+			background-color: #3399ff;
+			color: tan;
+			border-radius: 3px;
 		}
 
 	</style>
-
+	<title>Forum</title>
 </head>
 <body>
-<a href="/">Back to Forum</a></br>
-	<h1>Create a new Category</h1>
-	<form action ="/categories" method="POST">
-		<p><input class="text" type="text" name="title" placeholder="title" required><br></p>
 
-		<p><textarea rows="15" cols="100" name="body" placeholder="body"></textarea><br></p>
-		<input class="image" type="text" name="image" placeholder="url">
+	<nav style="margin:0px;">
+		<ul style="margin:0px;background-color:#5a5c51;width:100%;height:47px;overflow:hidden;opacity:0.9;text-align:left;">
+			<li class="nav"><a class="hyper" href="/">Home</a></li>
+		</ul>
+	</nav>
+
+	<img class="background-img" src="http://orig05.deviantart.net/9dd0/f/2012/335/b/5/nice_landscape__by_megustadeviantart-d5mpwu2.jpg">
+
+	<div class="pageContent">
+		<h1>Create a new Category</h1>
+		<form action ="/categories" method="POST">
+			<p><input class="text" type="text" name="title" placeholder="title" required><br></p>
+
+			<p><textarea rows="15" cols="100" name="body" placeholder="body"></textarea><br></p>
+			<input class="image" type="text" name="image" placeholder="url"></br>
+
+			<button>Save New Category</button>
 		
-		<input type="submit" value="Save New Category" style="border:2px green solid;"/>
+			<!-- <input type="submit" value="Save New Category" style="border:2px green solid; font-size:18px;"/> -->
 			
-	</form><br>
+		</form>
+	</div>
 	
 </body>
 </html>

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <head>
 	<style>
-		h2 {
+		h1 {
 			text-align: center;
-			color: #F00;
+			color: tan;
 			font-family: chalkduster;
 		}
 
 		body {
+			background-color: #F1F1F1;
 			text-align: justify;
-			margin-top: 25px;
-			margin-left: 30px;
-			padding: 10px 20px 10px 20px;
+			margin-right: -5px;
+			margin-left: -2px;
+			overflow-x: hidden;
 		}
 		h4 {
 			text-align: center;
@@ -27,30 +28,22 @@
 		img {
 			width: 100%;
 			display: block;
-			/*margin-left: auto;*/
-			/*margin-right: auto;*/
-
 		}
+		
 		.list {
 			padding: 5px;
 			font-size: 18px;
 			color: tan;
 			font-family: helvetica;
 		}
-		.hyper {
-			color: green;
-		}
-		.page {
-			
 
-		}
 		
-		ul {
+		.PS {
 			padding: 10px 10px 10px 20px;
 			list-style-type: none;
 
 		}
-		li {
+		.post {
 			border-style: outset;
 			background-color: #195019;
 			border-width: thick;
@@ -58,9 +51,6 @@
 			width: 200px;
 			margin:auto;
 			height: 30px;
-		}
-		table {
-			width: 800px;
 		}
 
 		#sidebar {
@@ -70,8 +60,11 @@
 			padding-right: 0px;
 			
 		}
+
 		#main-1 {
 			padding-right: 380px;
+			margin-left: 30px;
+			margin-top: 60px;
 		}
 		
 		#main-2 {
@@ -79,21 +72,102 @@
 			padding-right: 380px;
 			height: 100%;
 		}
-	</style>
+		.navbar {
+			top: 0;
+			left: 0;
+    		width: 100%;
+			list-style-type: none;
+    		margin: 0;
+    		padding: 0;
+    		overflow: hidden;
+    		background-color: #5a5c51;
+    		opacity: 0.8;
+		}
+		.nav {
+			float: left;
+		}
+		.nav a {
+			display: block;
+    		color: #dddfd4;
+    		text-align: center;
+    		padding: 14px 16px;
+    		text-decoration: none;
+		}
+		.nav a:hover {
+			background-color: #3fb0ac;
+		}
+		.bottom {
+			/*top: 80%;*/
+			text-align: center;
+		}
 
+		.vote {
+			margin-left: 350px;
+			padding-bottom: 60px;
+		}
+		.inline {
+			float:left;
+			text-align: center;
+		}
+
+		.icon {
+			width: 20px;
+			height: 20px;
+		}
+
+		.delete {
+			margin-right: 100px;
+			margin-bottom: 50px;
+			float: right;
+		}
+
+		.deleteIcon {
+			float: right;
+			height: 50px;
+			width: 50px;
+		}
+		button {
+			background: transparent;
+			border: none;
+		}
+
+		.background-img {
+			position: relative;
+			width: 100%;
+			height: 1300px;
+			opacity: 0.7;
+		}
+
+		.page {
+			opacity: 0.7;
+			left: 8%;
+			width: 84%;
+			background-color: white;
+			position: absolute;
+			top: 15%;
+		}
+		
+	</style>
+	<title>Forum</title>
 </head>
 <body>
-	<table>
-		<td><a class="hyper" href="/">Back to Forum</a></td>
-		<td><a class="hyper" href="/forum/<%= category.id %>/edit">Edit Category</a></td>
-		<td><a class="hyper" href="/category/<%= category.id %>/posts/new"> Create a new Post</a></td>
-	</table>
+	<nav style="margin:0px;">
+	<ul class = "navbar" style="margin:0px;">
+		<li class="nav"><a class="hyper" href="/">Home</a></li>
+		<li class="nav"><a class="hyper" href="/forum/<%= category.id %>/edit">Edit Category</a></li>
+		<li class="nav"><a class="hyper" href="/category/<%= category.id %>/posts/new"> Create New Post</a></li>
+	</ul>
+	</nav>
 	
+	
+	<img class="background-img" src="http://orig05.deviantart.net/9dd0/f/2012/335/b/5/nice_landscape__by_megustadeviantart-d5mpwu2.jpg">
+	
+<div class="page">
 	<div id = "sidebar">
 		<h4>Posts under this category : </h4>
-		<ul>
+		<ul class = "PS">
 			<% for (var i = 0; i<posts.length; i++) { %>
-				<li style="padding:4px;">
+				<li class = "post" style="padding:4px;">
 					<a class="list" href="/post/<%= posts[i].id %>"><%=posts[i].title%> </a>
 				</li>
 			<%}%> 
@@ -102,29 +176,43 @@
 
 
 	<div id = "main-1">
-		<h2><%= category.title %></h2> 
+		<h1><%= category.title %></h1> 
 		<p><%- category.body %></p></br>
 	</div>
 	<div id = "main-2">	
 		<img src="<%= category.image %>"></br>
 	</div>
-		<a class = "page" href="/forum/<%= category.id %>/page/1">Page 1</a> | 	
-		<a class = "page" href="/forum/<%= category.id %>/page/2">Page 2</a> | 	
-		<a class = "page" href="/forum/<%= category.id %>/page/3">Page 3</a></br></br></br>
-		
-		<form method="POST" action="/forum/<%= category.id %>/upvote">
-			<%= category.Upvotes %> <input type="submit" value="Like">
-		</form>
-
-		<form method="POST" action="/forum/<%= category.id %>/downvote">
-			<%= category.Downvotes %><input type="submit" value="Dislike">
-		</form></br>
-
-
-		<form method="POST" action="/forum/<%= category.id %>?_method=DELETE">
-			<input type="submit" value="Delete" style="border:2px green solid;"/>
-		</form></br>
+	<div class="vote">
+		<div class="inline" style="padding-right: 30px;">
+			<form method="POST" action="/forum/<%= category.id %>/upvote">
+				<%= category.Upvotes %>
+				<button><img class='icon' src="http://www.freeiconspng.com/uploads/hand-like-thumb-icon--1.png"></button>
+			</form>
+		</div>
+		<div class="inline">
+			<form method="POST" action="/forum/<%= category.id %>/downvote">
+				<%= category.Downvotes %><button><img class='icon' src="http://www.freeiconspng.com/uploads/dislike-button-png-1.png"></button>
+			</form>
+		</div>
 	</div>
+<!-- 	</br>
+	</br> -->
+
+	<div class = "bottom">
+		<a class = "page-1" href="/forum/<%= category.id %>/page/1">Page 1</a> | 	
+		<a class = "page-1" href="/forum/<%= category.id %>/page/2">Page 2</a> | 	
+		<a class = "page-1" href="/forum/<%= category.id %>/page/3">Page 3</a></br></br></br>
+	</div>
+
+		<div class="delete">
+			<form method="POST" action="/forum/<%= category.id %>?_method=DELETE">
+				<!-- <input type="submit" value="Delete"> -->
+				<button><img class="deleteIcon" src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/trash-circle-red-128.png"></button>
+			</form>
+		</div>
+		</br>
+	</div>
+
 
 
 

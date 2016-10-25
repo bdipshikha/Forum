@@ -23,6 +23,8 @@ var db = new sqlite3.Database('./forumdb/forum.db');
 var markdown = require( "markdown" ).markdown;
 
 
+app.use(express.static(__dirname + '/images'));
+
 app.get('/', function(req, res){
     res.redirect('/forums')
 });
