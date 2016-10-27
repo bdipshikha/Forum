@@ -109,8 +109,8 @@
 			<h1>Update <%= thisPost.title %></h1>
 
 			<form action ="/post/<%= thisPost.id %>/update?_method=PUT" method="POST">
-				<input type="date" name="date" placeholder="date"></br> 
-				<input class="text" type="text" name="title" value="<%= thisPost.title %>"></br>
+				<input type="date" name="date" placeholder="date"></br></br></br>
+				<input class="text" type="text" name="title" value="<%= thisPost.title %>"></br></br></br>
 				<textarea rows="15" cols="100" name="content" ><%= thisPost.body %></textarea></br></br> 
 		<!-- needs to be body not content -->
 				<input class="image" type="text" name="image" value="<%= thisPost.image %>"></br></br>
